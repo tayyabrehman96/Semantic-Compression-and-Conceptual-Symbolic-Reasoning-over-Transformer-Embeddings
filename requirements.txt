@@ -1,0 +1,15 @@
+# Core (embeddings + parallel sklearn)
+pandas>=2.0
+numpy>=1.24
+scikit-learn>=1.3
+joblib>=1.3
+torch>=2.0
+transformers>=4.36
+sentence-transformers>=2.2
+tqdm>=4.66
+
+# Optional: adds "XGBoost" to the sklearn bank if installed
+xgboost>=2.0
+
+# CNN path only (`python -m src.run_experiment --mode cnn`)
+tensorflow>=2.15

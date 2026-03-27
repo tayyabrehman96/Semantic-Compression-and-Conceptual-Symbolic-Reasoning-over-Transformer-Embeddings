@@ -1,0 +1,41 @@
+# --- Conference / travel / billing (never publish) ---
+ICCP 25/
+
+# Papers, receipts, slide decks (keep locally)
+*.pdf
+*.pptx
+
+# Obvious personal or one-off artifacts
+CopyrightReceipt.pdf
+Overleaf*.zip
+WhatsApp*
+
+# Optional huge dumps under data/ (track standard CSVs; ignore scratch)
+data/raw/
+data/*.zip
+
+# Timestamped experiment outputs
+results/runs/
+
+# Bulky local experiment exports
+Updated Results/
+Experimentation/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+.env
+*.egg-info/
+dist/
+build/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
