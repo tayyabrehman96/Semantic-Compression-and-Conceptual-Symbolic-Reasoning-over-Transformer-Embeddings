@@ -35,6 +35,9 @@ venv/
 dist/
 build/
 
+# Diagram sources (methodology figures live in README as Mermaid)
+*.drawio
+
 # Jupyter / Colab — keep *.ipynb on your machine only; reproducible runs use src/ + examples/
 *.ipynb
 .ipynb_checkpoints/

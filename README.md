@@ -7,6 +7,44 @@
 **Code:** [github.com/tayyabrehman96/Semantic-Compression-and-Conceptual-Symbolic-Reasoning-over-Transformer-Embeddings](https://github.com/tayyabrehman96/Semantic-Compression-and-Conceptual-Symbolic-Reasoning-over-Transformer-Embeddings)  
 **Paper (IEEE Xplore):** [Document 11427118](https://ieeexplore.ieee.org/abstract/document/11427118)
 
+### Project description (for GitHub “About” / summary)
+
+**Semantic compression and conceptual–symbolic reasoning for Italian crime news:** long news texts are **compressed** into fixed-size **transformer embeddings** (semantic vectors). Optional **K-Means** adds a **conceptual layer** (cluster distances) to expose structure in label space and help rare categories. **Classifiers** (parallel sklearn heads or a 1D-CNN) turn vectors into **interpretable, multi-class** predictions for legal / forensic NLP. See **Methodology** below for the diagram. Full evaluation uses **macro F1** (imbalanced crimes) plus weighted metrics; runs write **`run_manifest.json`** for reproducibility.
+
+---
+
+## Methodology
+
+1. **Semantic compression:** each article becomes a dense embedding with a **frozen** multilingual encoder (SentenceTransformers, Italian BERT, or E5). This step throws away surface wording but keeps trainable semantics for classification.
+2. **Conceptual structure (symbolic side):** **K-Means** on training embeddings defines **prototype regions**. Distances to cluster centers are concatenated to the embedding, giving explicit “how close to each theme” features for analysts (and sometimes better rare-label behaviour).
+3. **Reasoning / decision:** **multi-process sklearn** ensembles (SVM, logistic regression, forests, gradient boosting, optional XGBoost) or a **Conv1D** head scans the vector like a 1D signal, then dense layers output crime-category probabilities.
+4. **Accountability:** every CLI run saves **seed, data path, class list, and embedding id** so results match the IEEE paper setting when you lock those values.
+
+### Methodology diagram (high level)
+
+```mermaid
+flowchart TB
+  subgraph S1["1. Semantic compression"]
+    A[Italian crime news text] --> B[Frozen transformer encoder]
+    B --> C[Dense embedding per article]
+  end
+  subgraph S2["2. Conceptual layer optional"]
+    C --> D[K-Means on train]
+    D --> E[Distance-to-centroid features]
+    C --> F[Concatenate]
+    E --> F
+  end
+  subgraph S3["3. Classification"]
+    F --> G[Parallel sklearn heads and/or CNN head]
+    G --> H[Crime category scores]
+  end
+  subgraph S4["4. Reproducibility"]
+    H --> I[metrics CSV + run_manifest.json]
+  end
+```
+
+---
+
 ### How this repo is structured (not one `.ipynb` file)
 
 The **official** implementation is **many small Python programs**:
@@ -211,7 +249,7 @@ python -m src.sklearn_baseline --backend sentence_transformer
 
 ## What belongs in Git
 
-- **`src/`**, **`examples/`**, **`requirements.txt`**, **`README.md`**, **`Methodology.drawio`**, **`data/*.csv`** (optional, license permitting), **`data/.gitkeep`**, **`results/.gitkeep`**, small figures (`Methodology.png`, `ml_accuracy_minilm.png`, `Untitled Diagram.drawio`).  
+- **`src/`**, **`examples/`**, **`requirements.txt`**, **`README.md`**, **`data/*.csv`** (optional, license permitting), **`data/.gitkeep`**, **`results/.gitkeep`**, optional figures (`Methodology.png`, `ml_accuracy_minilm.png`). Methodology diagrams are **in this README** (Mermaid), not `.drawio` files.  
 - **Not** in Git: **any `*.ipynb`** (use `src/` + `examples/` on GitHub), `results/runs/*`, `_work/`, `ICCP 25/`, most `*.pdf` / `*.pptx`, `Updated Results/`, `Experimentation/`, `__pycache__` — see `.gitignore`.
 
 ---
