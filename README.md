@@ -1,14 +1,21 @@
 # Reasoning over Transformer Embeddings for Interpretable Crime News Classification
 
 [![Python](https://img.shields.io/badge/Python-3.9%2B-blue.svg)](https://www.python.org/)
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/tayyabrehman96/Semantic-Compression-and-Conceptual-Symbolic-Reasoning-over-Transformer-Embeddings/blob/main/Reasoning%20over%20Transformer%20Embeddings%20for%20Interpretable%20Crime%20News%20Classification.ipynb)
 [![GitHub Stars](https://img.shields.io/github/stars/tayyabrehman96/Semantic-Compression-and-Conceptual-Symbolic-Reasoning-over-Transformer-Embeddings?style=social)](https://github.com/tayyabrehman96/Semantic-Compression-and-Conceptual-Symbolic-Reasoning-over-Transformer-Embeddings/stargazers)
 [![GitHub Forks](https://img.shields.io/github/forks/tayyabrehman96/Semantic-Compression-and-Conceptual-Symbolic-Reasoning-over-Transformer-Embeddings?style=social)](https://github.com/tayyabrehman96/Semantic-Compression-and-Conceptual-Symbolic-Reasoning-over-Transformer-Embeddings/network/members)
 
 **Code:** [github.com/tayyabrehman96/Semantic-Compression-and-Conceptual-Symbolic-Reasoning-over-Transformer-Embeddings](https://github.com/tayyabrehman96/Semantic-Compression-and-Conceptual-Symbolic-Reasoning-over-Transformer-Embeddings)  
 **Paper (IEEE Xplore):** [Document 11427118](https://ieeexplore.ieee.org/abstract/document/11427118)
 
-Modular, reproducible code for interpretable **multi-class** crime-news classification: **frozen transformer embeddings**, optional **K-Means** features, **parallel** sklearn heads (**joblib** / separate processes), and an optional **1D-CNN** (TensorFlow). This repo includes **`src/`** (CLI + stages), **notebooks**, and **`Methodology.drawio`** for GitHub. Heavy or private files stay ignored (see `.gitignore`).
+### How this repo is structured (not one `.ipynb` file)
+
+The **official** implementation is **many small Python programs**:
+
+- **`src/`** — library modules (data I/O, embeddings, clustering, models, metrics, parallel runners, stages).
+- **`python -m src …`** — CLI with subcommands (`run`, `cache-embed`, `train`, `run-subprocess`).
+- **`examples/run_*.py`** — short scripts you run like normal programs (each calls `src`).
+
+A **single huge notebook** is **not** the source of truth here (`.ipynb` is **gitignored**; keep your own copies locally if you still use Colab). Reproduce papers and share code using **`src/` + `examples/`** only.
 
 ---
 
@@ -119,7 +126,17 @@ flowchart TB
 | `src/run_experiment.py` | Back-compat: `python -m src.run_experiment` (flat flags) |
 | `src/sklearn_baseline.py` | Quick ST/BERT + parallel sklearn (no run folder) |
 
-Legacy `13052025.py` / `140525.py` are Colab snapshots. **Notebooks** in this repo: `Reasoning over Transformer Embeddings for Interpretable Crime News Classification.ipynb`, `AAMS.ipynb`. Reproduce numerically with the `src/` CLI when you need exact manifests.
+### `examples/` (micro-program entry points)
+
+| Script | What it does |
+|--------|----------------|
+| `examples/run_01_sklearn_default.py` | Default ST embeddings + parallel sklearn |
+| `examples/run_02_e5_kmeans.py` | E5 + K-Means(8) + sklearn |
+| `examples/run_03_two_process_pipeline.py` | Two OS processes: embed cache, then train |
+
+Run from repo root, e.g. `python examples/run_01_sklearn_default.py`.
+
+Legacy `13052025.py` / `140525.py` are old Colab-style dumps; do not extend them for new work.
 
 ---
 
@@ -194,8 +211,8 @@ python -m src.sklearn_baseline --backend sentence_transformer
 
 ## What belongs in Git
 
-- **`src/`**, **`requirements.txt`**, **`README.md`**, **`.ipynb` notebooks**, **`Methodology.drawio`**, **`data/*.csv`** (if you ship DICE under license), **`data/.gitkeep`**, **`results/.gitkeep`**, figures such as `Methodology.png`, `ml_accuracy_minilm.png`, `Untitled Diagram.drawio`.  
-- **Not** in Git: `results/runs/*`, `ICCP 25/`, most `*.pdf` / `*.pptx`, `Updated Results/`, `Experimentation/`, `__pycache__` — see `.gitignore`.
+- **`src/`**, **`examples/`**, **`requirements.txt`**, **`README.md`**, **`Methodology.drawio`**, **`data/*.csv`** (optional, license permitting), **`data/.gitkeep`**, **`results/.gitkeep`**, small figures (`Methodology.png`, `ml_accuracy_minilm.png`, `Untitled Diagram.drawio`).  
+- **Not** in Git: **any `*.ipynb`** (use `src/` + `examples/` on GitHub), `results/runs/*`, `_work/`, `ICCP 25/`, most `*.pdf` / `*.pptx`, `Updated Results/`, `Experimentation/`, `__pycache__` — see `.gitignore`.
 
 ---
 

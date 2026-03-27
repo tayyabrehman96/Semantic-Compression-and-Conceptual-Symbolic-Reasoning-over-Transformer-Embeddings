@@ -14,6 +14,9 @@ WhatsApp*
 data/raw/
 data/*.zip
 
+# Local two-process cache (examples/run_03)
+/_work/
+
 # Timestamped experiment outputs
 results/runs/
 
@@ -32,7 +35,8 @@ venv/
 dist/
 build/
 
-# Jupyter
+# Jupyter / Colab — keep *.ipynb on your machine only; reproducible runs use src/ + examples/
+*.ipynb
 .ipynb_checkpoints/
 
 # OS / editor
